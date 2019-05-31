@@ -68,11 +68,12 @@ function timerIncrement() {
 	console.log(idleTime);
     if (idleTime = 20) { // 20 sec
 		$(".chatBox").append('<span class="responseData">'+ 'UPCL : Do you need any further assistance?(Yes/No) ');
-		  if (idleTime=40){
+		  
+		}
+		if (idleTime=40){
 				$(".chatBox").append('<span class="responseData">'+ 'UPCL : Thank you ');
 					return process.abort();
 			}
-		}
 }
 	
 	

@@ -1,0 +1,94 @@
+<html>
+<head>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+		<!-- Optional theme -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+		<!-- Jquery -->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+		<!-- Latest compiled and minified JavaScript -->
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+	<title>UPCL Chatbot</title>
+	<h1>Welcome To UPCL</h1>
+	<p>Hello! How can I help you?</p>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+	<script type="text/javascript">
+		var accessToken = "f79640eac50e45eabe89a8e0c22ef8df";
+		var baseUrl = "https://api.api.ai/v1/";
+		$(document).ready(function() {
+			$("#input").keypress(function(event) {
+				if (event.which == 13) {
+					$('.chatBox').append('<span class="userInput">' + 'USER : '+ $('input').val() + '</span><br><br>')
+					event.preventDefault();
+					let query  = $('input').val()
+					$('input').val('')
+					send(query);
+				}
+			});
+		});
+	    
+		function send(query) {
+			var text = query;
+			$.ajax({
+				type: "POST",
+				url: baseUrl + "query?v=20180101",
+				contentType: "application/json; charset=utf-8",
+				dataType: "json",
+				headers: {
+					"Authorization": "Bearer " + accessToken
+				},
+				data: JSON.stringify({ query: text, lang: "en", sessionId: "somerandomthing" }),
+				success: function(data) {
+					setResponse(data);
+				}
+			});
+		}
+		function setResponse(val) {
+			$(".chatBox").append('<span class="responseData">'+ 'UPCL : ' + val.result.fulfillment.speech + '</span><br><br>');
+             
+			} 
+			var idleTime = 0;
+$(document).ready(function () {
+    //Increment the idle time counter every sec.
+    var idleInterval = setInterval(timerIncrement, 1000); // 1 second
+
+    //Zero the idle timer on mouse movement.
+   // $(this).mousemove(function (e) {
+     //   idleTime = 0;
+   // });
+    $(this).keypress(function (e) {
+        idleTime = 0;
+    });
+});
+
+function timerIncrement() {
+	idleTime = idleTime + 1;
+	console.log(idleTime);
+    if (idleTime > 20) { // 20 sec
+		$(".chatBox").append('<span class="responseData">'+ 'UPCL : Do you need any further assistance?(Yes/No) ');
+			
+			idleTime = 0;
+		}
+}
+	
+	
+	</script>
+	<style type="text/css">
+		body { width: 300px; margin: 30px auto;height: 400px; border: 2px solid black;padding: 20px;border-radius: 5px	;box-shadow: 0 5px #cccccc;overflow: auto; }
+		div { widows: 295px;height: 200px;overflow: auto	 }
+		.userInput{float: left; margin: 8px 0;}
+		.responseData{float:right; padding-left: 80px;margin: 4px ;};
+		#input { width: 500px; }
+		
+	</style>
+</head>
+<body>
+	
+	<div class = 'chatBox'>
+	</div>
+	<input id="input" type="text" style="width: 260px;border-radius: 15px;" placeholder="Write your message here..." > 
+	
+</body>
+</html>

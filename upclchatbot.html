@@ -50,6 +50,7 @@
              
 			} 
 			var idleTime = 0;
+			var idt=0;
 $(document).ready(function () {
     //Increment the idle time counter every sec.
     var idleInterval = setInterval(timerIncrement, 1000); // 1 second
@@ -65,15 +66,19 @@ $(document).ready(function () {
 
 function timerIncrement() {
 	idleTime = idleTime + 1;
+	
 	console.log(idleTime);
-    if (idleTime = 20) { // 20 sec
+  
+    if (idleTime == 20) { // 20 sec
 		$(".chatBox").append('<span class="responseData">'+ 'UPCL : Do you need any further assistance?(Yes/No) ');
-		  
+			
 		}
-		if (idleTime=40){
-				$(".chatBox").append('<span class="responseData">'+ 'UPCL : Thank you ');
-					return process.abort();
-			}
+
+		else if (idleTime == 38){
+			$(".chatBox").append('<span class="responseData">'+ 'UPCL : Thank you ');
+			
+			window.stop();
+		}
 }
 	
 	

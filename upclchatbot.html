@@ -21,6 +21,7 @@
 			$("#input").keypress(function(event) {
 				if (event.which == 13) {
 					$('.chatBox').append('<span class="userInput">' + 'USER : '+ $('input').val() + '</span><br><br>')
+					$(".chatBox").animate({ scrollTop: $('.chatBox').prop("scrollHeight")}, 800);
 					event.preventDefault();
 					let query  = $('input').val()
 					$('input').val('')
@@ -34,9 +35,11 @@
 			if (query=='no')  {
 					console.log("the end");
 					$(".chatBox").append('<span class="responseData">'+ 'UPCL : Thank you for using UPCL');
+					$(".chatBox").animate({ scrollTop: $('.chatBox').prop("scrollHeight")}, 800);
 					exit();
 
 				}
+				
 			$.ajax({
 				type: "POST",
 				url: baseUrl + "query?v=20180101",
@@ -53,8 +56,10 @@
 		}
 		function setResponse(val) {
 			$(".chatBox").append('<span class="responseData">'+ 'UPCL : ' + val.result.fulfillment.speech + '</span><br><br>');
-        
+			$(".chatBox").animate({ scrollTop: $('.chatBox').prop("scrollHeight")}, 800);
 			} 
+			
+			
 			var idleTime = 0;
 			var idt=0;
 $(document).ready(function () {
@@ -77,11 +82,13 @@ function timerIncrement() {
   
     if (idleTime == 20) { // 20 sec
 		$(".chatBox").append('<span class="responseData">'+ 'UPCL : Do you need any further assistance?(Yes/No) ');
+		$(".chatBox").animate({ scrollTop: $('.chatBox').prop("scrollHeight")}, 800);
 			
 		}
 
 		else if (idleTime == 40){
 			$(".chatBox").append('<span class="responseData">'+ 'UPCL : Thank you for using UPCL');
+			$(".chatBox").animate({ scrollTop: $('.chatBox').prop("scrollHeight")}, 800);
 			
 			window.stop();
 		}

@@ -31,6 +31,12 @@
 	    
 		function send(query) {
 			var text = query;
+			if (query=='no')  {
+					console.log("the end");
+					$(".chatBox").append('<span class="responseData">'+ 'UPCL : Thank you for using UPCL');
+					exit()
+
+				}
 			$.ajax({
 				type: "POST",
 				url: baseUrl + "query?v=20180101",
@@ -47,7 +53,7 @@
 		}
 		function setResponse(val) {
 			$(".chatBox").append('<span class="responseData">'+ 'UPCL : ' + val.result.fulfillment.speech + '</span><br><br>');
-             
+        
 			} 
 			var idleTime = 0;
 			var idt=0;
@@ -75,7 +81,7 @@ function timerIncrement() {
 		}
 
 		else if (idleTime == 38){
-			$(".chatBox").append('<span class="responseData">'+ 'UPCL : Thank you ');
+			$(".chatBox").append('<span class="responseData">'+ 'UPCL : Thank you for using UPCL');
 			
 			window.stop();
 		}

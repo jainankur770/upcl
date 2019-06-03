@@ -35,8 +35,9 @@
 			if (query=='no')  {
 					console.log("the end");
 					$(".chatBox").append('<span class="responseData">'+ 'UPCL : Thank you for using UPCL');
+					exit(0);
 					$(".chatBox").animate({ scrollTop: $('.chatBox').prop("scrollHeight")}, 800);
-					exit();
+					
 
 				}
 				

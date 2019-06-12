@@ -16,14 +16,18 @@
 
 		var accessToken = "f79640eac50e45eabe89a8e0c22ef8df";
 		var baseUrl = "https://api.api.ai/v1/";
-
+		var d = new Date();
+		var h = d.getHours();
+		var m = d.getMinutes();
+	
 	
 
 		$(document).ready(function() {
 			$("#input").keypress(function(event) {
 				if (event.which == 13) {
 					//  <div><p>Query</p><p {fontSize--, textAlign: right}>Timestamp</p></div>
-					$('.chatBox').append('<span class="userInput">' + 'USER : '+ $('input').val() +'</span><br><br>');
+					$('.chatBox').append('<div class="userInput">'+'<img class="userimage" src="avatar1.png">'  + '      ' + $('input').val()+'<br><br>'+'<div class = "usertime">'+h+":"+m+'</div>'+'</div>'+'</div>');
+					
 					$(".chatBox").animate({ scrollTop: $('.chatBox').prop("scrollHeight")}, 800);
 					event.preventDefault();
 					let query  = $('input').val()
@@ -32,7 +36,9 @@
 				}
 			});
 		});
-	    
+	  
+
+
 		function send(query) {
 			var text = query;
 		
@@ -56,13 +62,13 @@
 		function setResponse(val) {
 			console.log(val.result.fulfillment.speech);
 			if (val.result.fulfillment.speech=='Thank you for using UPCL'){
-				$(".chatBox").append('<span class="responseData">'+ 'UPCL : Thank you for using UPCL');
+				$(".chatBox").append('<div class="responseData">'+'<img class="responseimage" src="avatar2.png">'+  '  Thank you for using UPCL'+'<br><br>'+'<div class = "responsetime">'+h+":"+m+'</div>'+'</div>');
 		   	$(".chatBox").animate({ scrollTop: $('.chatBox').prop("scrollHeight")}, 800);
 				clearInterval(idleInterval);
 			}
 			else{
 				
-			$(".chatBox").append('<span class="responseData">'+ 'UPCL : ' + val.result.fulfillment.speech + '</span><br><br>');
+			$(".chatBox").append('<div class="responseData">'+'<img class="responseimage" src="avatar2.png">'+ '  ' + val.result.fulfillment.speech + '<br><br>'+'<div class = "responsetime">'+h+":"+m+'</div>'+'</div>');
 			$(".chatBox").animate({ scrollTop: $('.chatBox').prop("scrollHeight")}, 800);
 		}
 		}
@@ -87,13 +93,13 @@ function timerIncrement() {
 	console.log(idleTime);
   
     if (idleTime == 30) { // 20 sec
-		$(".chatBox").append('<span class="responseData">'+ 'UPCL : Do you need any further assistance?(Yes/No) ');
+		$(".chatBox").append('<div class="responseData">'+'<img class="responseimage" src="avatar2.png">'+ '  Do you need any further assistance?(Yes/No)'+'<br><br>'+'<div class = "responsetime">'+h+":"+m+'</div>'+'</div>');
 		$(".chatBox").animate({ scrollTop: $('.chatBox').prop("scrollHeight")}, 800);
 			
 		}
 
 		else if (idleTime == 50){
-			$(".chatBox").append('<span class="responseData">'+ 'UPCL : Thank you for using UPCL');
+			$(".chatBox").append('<div class="responseData">'+'<img class="responseimage" src="avatar2.png">'+ '  Thank you for using UPCL'+'<br><br>'+'<div class = "responsetime">'+h+":"+m+'</div>'+'</div>');
 			$(".chatBox").animate({ scrollTop: $('.chatBox').prop("scrollHeight")}, 800);
 			
 			window.stop();
@@ -103,7 +109,8 @@ function timerIncrement() {
 function openForm() {
   document.getElementById("myForm").style.display = "block";
   
-  $(".chatBox").append('<div class="responseData">'+ 'UPCL : How may I assist you today ?' +'</div>');	
+  $(".chatBox").append('<div class="responseData">'+'<img class="responseimage" src="avatar2.png">'+ '  How may I assist you today ?'+'<br><br>' +'<div class = "responsetime">'+h+":"+m+'</div>'+'</div>');	
+
 	$(".chatBox").animate({ scrollTop: $('.chatBox').prop("scrollHeight")}, 800);
 	
 }
@@ -137,35 +144,56 @@ function closeForm() {
 .form-container .btn:hover, .open-button:hover {
   opacity: 1;
 }
-.form-container .btn {
-  background-color: #4CAF50;
-  color: white;
-  padding: 16px 20px;
-  border: none;
-  cursor: pointer;
-  width: 100%;
-  margin-bottom:10px;
-  opacity: 0.8;
-   margin-bottom: 0%;
-}
+
 .chatBox {
 				overflow: auto;
 				height: 350px;
+				
 			}
 		
-		.userInput{float: right; margin: 8px 0;width: 80%;background: #1ddced;border-radius: 15px;color: #fff;padding: 5px;}
+		.userInput{float:right;text-align:right;padding-left: 100px;width: 80%;margin: 6px ;;background: #1ddced;border-radius: 15px;color: #fff;padding: 5px;}
 		
 		
-		.responseData{float:left; padding-right: 100px;margin: 4px ;background: #1adda4;border-radius: 15px;color: #fff;padding: 5px};
+		.responseData{float:left; padding-right: 100px;width: 80%;margin: 6px ;background: #1adda4;border-radius: 15px;color: #fff;padding: 5px};
 		#input { width: 600px; }
 
 		.form-container .cancel {
-  background-color: red;
-  border-radius: 15px;
+  
+  border-radius: 50%;
 	margin: 10px;
-	width: 350px;
-	height: 15px;
+	width: 50px;
+	height: 50px;
+	position:absolute;
+	left: 40%;
+	
 
+}
+.close-btn-img{
+	height: 100%;
+	width: 100%;
+	
+	box-shadow: #f1f1f1;
+}
+.userimage{
+	height: 50px;
+	width: 50px;
+	margin-bottom: 10px;
+	
+	border-radius: 50%;
+	float: right;
+	
+	
+	
+}
+.responseimage{
+	height:50px;
+	width:50px;
+	border-radius: 50%;
+	margin-bottom: 10px;
+	margin-right: 10px;
+	float: left;
+	
+	
 }
 .open-button {
   padding: 16px 20px;
@@ -184,22 +212,32 @@ function closeForm() {
 	width: 100%;
 	box-shadow: #f1f1f1;
 	
+}		
+.usertime{
+	
+	font-size: 12px;
+	padding-left: 30px;
+	text-align: left;
+	
 }
-	   
-
-
-
-
-
-		
-	</style>
+.responsetime{
+	text-align: right;
+	font-size: 12px;
+	padding-right: 30px;
+	
+}
+header {
+    background-color:#ECF3F3;
+}
+</style>
 </head>
 <body>
 	<button class="open-button" onclick="openForm()"><img class='open-button-img' src="ank2.png"></button>
 	<div class="chat-popup" id="myForm">
-			<h1 >&nbsp; Hi, I am Shakti.           <img src="upcl.png" style="width: 100px;height: 70px;"></h1>
+		<header>
+			<h1 >&nbsp; Hi, I am Shakti. &nbsp;<img src="upcl.png" style="width: 100px;height: 70px;border-radius: 55%"></h1>
 			<h2>&nbsp;I am UPCL’s digital assistant</h2>
-			
+		</header>	
 		<div class="form-container">
 	<div class = 'chatBox'>
 		
@@ -208,7 +246,7 @@ function closeForm() {
   
 	
 	<input id="input" type="text" style="width: 380px;border-radius: 15px;height: 35px;" placeholder="Write your message here..." > 
-	<button type="button" class="btn cancel" onclick="closeForm()">CLOSE</button>
+	<button type="button" class="btn cancel" onclick="closeForm()"><img class = 'close-btn-img' src="close.png"></button>
   </div>
 </div>
 

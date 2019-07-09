@@ -1,0 +1,513 @@
+<html>
+
+<head>
+
+
+
+	<!-- Jquery -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+	<title>UPCL Chatbot</title>
+
+
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+	<script type="text/javascript">
+
+
+		var d = new Date();
+		var h = d.getHours();
+		var m = d.getMinutes();
+		var s = d.getSeconds();
+		var day = d.getDay();
+		var month = d.getMonth() + 1;
+		var year = d.getFullYear();
+		var tid = day.toString() + month.toString() + year.toString() + h.toString() + m.toString() + s.toString();
+		console.log("tid is " + tid)
+
+
+		$(document).ready(function () {
+			$("#input").keypress(function (event) {
+				if (event.which == 13) {
+					//  <div><p>Query</p><p {fontSize--, textAlign: right}>Timestamp</p></div>
+					$('.chatBox').append('<br>' + '<div class="userInput">' + '<img class="userimage" src="avatar1.png">' + '      ' + $('input').val() + '<br><br>' + '<div class = "usertime">' + h + ":" + m + '</div>' + '</div>' + '</div>');
+
+					$(".chatBox").animate({ scrollTop: $('.chatBox').prop("scrollHeight") }, 800);
+					event.preventDefault();
+					let query = $('input').val()
+					console.log(query)
+					$('input').val('')
+					send(query, tid);
+				}
+			});
+		});
+
+		function myfunc(value) {
+			var p = value
+			var i = tid
+			console.log(p)
+			$('.chatBox').append('<br>' + '<div class="userInput">' + '<img class="userimage" src="avatar1.png">' + '      ' + p + '<br><br>' + '<div class = "usertime">' + h + ":" + m + '</div>' + '</div>' + '</div>');
+
+			$(".chatBox").animate({ scrollTop: $('.chatBox').prop("scrollHeight") }, 800);
+			event.preventDefault();
+			let query = p
+			console.log(query)
+
+			send(query, i);
+		}
+
+
+		function send(query, tid) {
+			var text = query;
+			var id = tid;
+			console.log("send to api")
+			$.ajax({
+				type: "GET",
+				url: 'http://34.206.155.71:5000/',
+
+				//contentType: "application/json; charset=utf-8",
+				dataType: "json",
+				data: { query: text, tid: id },
+				success: function (user) {
+					setResponse(user);
+				}
+				//data: JSON.stringify({ query: text, lang: "en", sessionId: "somerandomthing" }),
+				//success: function(data) {
+				//getresponse(data);
+				//setResponse(data);
+				//}
+			});
+		}
+
+
+		var idleInterval;
+
+		function displayDelayedResponses(responses) {
+			for (var i = 0; i < responses.length - 1; i++) {
+				var response = responses[i];
+
+				(function (response, i) {
+					setTimeout(function () {
+						$(".chatBox").append('<div class="responseData">' + '<img class="responseimage" src="avatar2.png">' + '  ' + response + '<br><br>' + '<div class = "responsetime">' + h + ":" + m + '</div>' + '</div>');
+						$(".chatBox").animate({ scrollTop: $('.chatBox').prop("scrollHeight") }, 800);
+					}, 3000 * i);
+				})(response, i);
+			}
+		}
+
+		function setResponse(val) {
+			console.log(val);
+			if (val == 'Thank you for using UPCL') {
+				$(".chatBox").append('<div class="responseData">' + '<img class="responseimage" src="avatar2.png">' + '  Thank you for using UPCL' + '<br><br>' + '<div class = "responsetime">' + h + ":" + m + '</div>' + '</div>');
+				$(".chatBox").animate({ scrollTop: $('.chatBox').prop("scrollHeight") }, 800);
+				clearInterval(idleInterval);
+			}
+			else if (val == "Have you received your electricity consumption bill") {
+
+				$(".chatBox").append('<div class="responseData">' + '<img class="responseimage" src="avatar2.png">' + '  ' + val + '<br><br>' + '<div class = "responsetime">' + h + ":" + m + '</div>' + '</div>' + '<button class=button1 value="YES" onclick = "myfunc(value)" type="submit">YES</button>' + '<button class=button2 value="NO" onclick = "myfunc(value)" type="submit">NO</button>');
+				$(".chatBox").animate({ scrollTop: $('.chatBox').prop("scrollHeight") }, 800);
+			}
+			else if (val == "Please select your query from the below mentioned options") {
+				$(".chatBox").append('<div class="responseData">' + '<img class="responseimage" src="avatar2.png">' + '  ' + val + '<br><br>' + '<div class = "responsetime">' + h + ":" + m + '</div>' + '</div>' + '<br><br><br<br><br><br><br>' + '<button class="button" value="Billing Amount" onclick = "myfunc(value)" type="submit">Billing Amount</button>' + '<button class=button3 value="Bill Payment" onclick = "myfunc(value)" type="submit">Bill  Payment</button>' + '<button class=button4 value="Billing Procedure" onclick = "myfunc(value)" type="submit">Billing Procedure</button>' + '<button class=button5 value="Consumption Details" onclick = "myfunc(value)" type="submit">Consumption details</button>' + '<button class=button6 value="Popular Tariff" onclick = "myfunc(value)" type="submit">Popular Tariff</button>' + '<button class=button7 value="Sanctioned Load" onclick = "myfunc(value)" type="submit">Sanctioned Load</button>' + '<button class=button8 value="Shifting Meter" onclick = "myfunc(value)" type="submit">Shifting Meter</button>' + '<button class=button9 value="Call Back" onclick = "myfunc(value)" type="submit">Request Callback</button>');
+				$(".chatBox").animate({ scrollTop: $('.chatBox').prop("scrollHeight") }, 800);
+
+			}
+			else if (val == "Please select your preferred time from below options") {
+				$(".chatBox").append('<div class="responseData">' + '<img class="responseimage" src="avatar2.png">' + '  ' + val + '<br><br>' + '<div class = "responsetime">' + h + ":" + m + '</div>' + '</div>' + '<br><br><br<br><br><br><br>' + '<button class="button" value="Morning" onclick = "myfunc(value)" type="submit">Morning</button>' + '<button class=button3 value="Afternoon" onclick = "myfunc(value)" type="submit">Afternoon</button>' + '<button class=button4 value="Evening" onclick = "myfunc(value)" type="submit">Evening</button>');
+				$(".chatBox").animate({ scrollTop: $('.chatBox').prop("scrollHeight") }, 800);
+			}
+			else {
+				var j = val.split(" ")
+				var ar = val.split(".")
+				// console.log(ar.length)
+				if (j.length > 20) {
+					displayDelayedResponses(ar);  // Works as expected
+
+				}
+				else {
+
+					$(".chatBox").append('<div class="responseData">' + '<img class="responseimage" src="avatar2.png">' + '  ' + val + '<br><br>' + '<div class = "responsetime">' + h + ":" + m + '</div>' + '</div>');
+					$(".chatBox").animate({ scrollTop: $('.chatBox').prop("scrollHeight") }, 800);
+				}
+			}
+		}
+		var idleTime = 0;
+
+		$(document).ready(function () {
+			//Increment the idle time counter every sec.
+			idleInterval = setInterval(timerIncrement, 1000); // 1 second
+
+			//Zero the idle timer on mouse movement.
+			$(this).mousedown(function (e) {
+				idleTime = 0;
+			});
+			$(this).keypress(function (e) {
+				idleTime = 0;
+			});
+		});
+
+		function timerIncrement() {
+			idleTime = idleTime + 1;
+
+			//  console.log(idleTime);
+
+			if (idleTime == 30) { // 20 sec
+				$(".chatBox").append('<div class="responseData">' + '<img class="responseimage" src="avatar2.png">' + '  Do you need any further assistance?' + '<br><br>' + '<div class = "responsetime">' + h + ":" + m + '</div>' + '</div>' + '<br><br><br<br><br><br><br><br>' + '<button class=button1 value="YES" onclick = "myfunc(value)" type="submit">YES</button>' + '<button class=button2 value="NO" onclick = "myfunc(value)" type="submit">NO</button>');
+				$(".chatBox").animate({ scrollTop: $('.chatBox').prop("scrollHeight") }, 800);
+
+			}
+
+			else if (idleTime == 50) {
+				$(".chatBox").append('<div class="responseData">' + '<img class="responseimage" src="avatar2.png">' + '  Thank you for using UPCL' + '<br><br>' + '<div class = "responsetime">' + h + ":" + m + '</div>' + '</div>');
+				$(".chatBox").animate({ scrollTop: $('.chatBox').prop("scrollHeight") }, 800);
+
+				window.stop();
+			}
+		}
+
+		function openForm() {
+			document.getElementById("myForm").style.display = "block";
+
+			$(".chatBox").append('<div class="responseData">' + '<img class="responseimage" src="avatar2.png">' + 'To help me assist you, please click on the below relevant options' + '<br><br>' + '<div class = "responsetime">' + h + ":" + m + '</div>' + '</div>' + '<br><br><br<br><br><br><br>' + '<button class="button" value="Billing Amount" onclick = "myfunc(value)" type="submit">Billing Amount</button>' + '<button class=button3 value="Bill Payment" onclick = "myfunc(value)" type="submit"> Bill Payment</button>' + '<button class=button4 value="Billing Procedure" onclick = "myfunc(value)" type="submit">Billing Procedure</button>' + '<button class=button5 value="Consumption Details" onclick = "myfunc(value)" type="submit">Consumption details</button>' + '<button class=button6 value="Popular Tariff" onclick = "myfunc(value)" type="submit">Popular Tariff</button>' + '<button class=button7 value="Sanctioned Load" onclick = "myfunc(value)" type="submit">Sanctioned Load</button>' + '<button class=button8 value="Shifting Meter" onclick = "myfunc(value)" type="submit">Shifting Meter</button>' + '<button class=button9 value="Call Back" onclick = "myfunc(value)" type="submit">Request Callback</button>');
+			$(".chatBox").animate({ scrollTop: $('.chatBox').prop("scrollHeight") }, 800);
+
+		}
+
+		function closeForm() {
+			document.getElementById("myForm").style.display = "none";
+			$(".chatBox").empty();
+		}
+
+
+	</script>
+	<style type="text/css">
+		body {
+			font-family: Arial, Helvetica, sans-serif;
+			height: 400px;
+		}
+
+		* {
+			box-sizing: border-box;
+		}
+
+		.chat-popup {
+			display: none;
+			position: fixed;
+			bottom: 10px;
+			right: 15px;
+			border: 3px solid #f1f1f1;
+
+		}
+
+		.form-container {
+			width: 400px;
+			padding: 10px;
+			background-color: white;
+			height: 500px;
+		}
+
+		.form-container .btn:hover,
+		.open-button:hover {
+			opacity: 1;
+		}
+
+		html,
+		body {
+			height: 100%;
+			box-sizing: border-box;
+		}
+
+		.chatBox {
+			overflow: auto;
+			height: 400px;
+		}
+
+		.userInput {
+			float: right;
+			text-align: right;
+			padding-right: 100px;
+			width: 80%;
+			margin: 6px;
+			background: #1ddced;
+			border-radius: 15px;
+			color: #fff;
+			padding: 5px;
+			height: auto;
+		}
+
+
+		.responseData {
+			float: left;
+			padding-right: 100px;
+			width: 80%;
+			margin: 6px;
+			background: #1adda4;
+			border-radius: 15px;
+			color: #fff;
+			padding: 5px;
+			height: auto;
+		}
+
+		;
+
+		#input {
+			width: 600px;
+		}
+
+		.form-container .cancel {
+			border-radius: 15px;
+			width: 50px;
+			height: 30px;
+			margin: 10px auto;
+			display: block;
+			cursor: pointer;
+			box-shadow: 2px 2px #888888;
+		}
+
+		.userimage {
+			height: 50px;
+			width: 50px;
+			margin-bottom: 10px;
+			margin-left: 10px;
+			border-radius: 50%;
+			float: right;
+		}
+
+		.button {
+			border-radius: 15px;
+			height: 45px;
+			width: 90px;
+			margin: 5px;
+			background-color: white;
+			color: black;
+			border: 2px solid #4CAF50;
+			text-align: center;
+		}
+
+		.button:hover {
+			background-color: #4CAF50;
+			color: white;
+			box-shadow: 5px;
+		}
+
+		.button1 {
+			border-radius: 15px;
+			height: 25px;
+			width: 55px;
+			margin: 5px;
+			background-color: white;
+			color: black;
+			border: 2px solid #4CAF50;
+			text-align: center;
+		}
+
+		.button1:hover {
+			background-color: #4CAF50;
+			color: white;
+			box-shadow: 5px;
+		}
+
+		.button2 {
+			border-radius: 15px;
+			height: 25px;
+			width: 55px;
+			margin: 5px;
+			background-color: white;
+			color: black;
+			border: 2px solid #f44336;
+			text-align: center;
+
+		}
+
+		.button2:hover {
+			background-color: #f44336;
+			color: white;
+			box-shadow: 5px;
+		}
+
+		.button3 {
+			border-radius: 15px;
+			height: 45px;
+			width: 90px;
+			margin: 5px;
+			background-color: white;
+			color: black;
+			border: 2px solid #008CBA;
+			text-align: center;
+		}
+
+		.button3:hover {
+			background-color: #008CBA;
+			color: white;
+		}
+
+		.button4 {
+			border-radius: 15px;
+			height: 45px;
+			width: 90px;
+			margin: 5px;
+			background-color: white;
+			color: black;
+			border: 2px solid #FFFF00;
+			text-align: center;
+		}
+
+		.button4:hover {
+			background-color: #FFFF00;
+		}
+
+		.button5 {
+			border-radius: 15px;
+			height: 45px;
+			width: 90px;
+			margin: 5px;
+			background-color: white;
+			color: black;
+			border: 2px solid #555555;
+			text-align: center;
+		}
+
+		.button5:hover {
+			background-color: #555555;
+			color: white;
+		}
+
+		.button6 {
+			border-radius: 15px;
+			height: 45px;
+			width: 90px;
+			margin: 5px;
+			background-color: white;
+			color: black;
+			border: 2px solid #db5f12;
+			text-align: center;
+		}
+
+		.button6:hover {
+			background-color: #db5f12;
+			color: white;
+		}
+
+		.button7 {
+			border-radius: 15px;
+			height: 45px;
+			width: 90px;
+			margin: 5px;
+			background-color: white;
+			color: black;
+			border: 2px solid #b056bb;
+			text-align: center;
+		}
+
+		.button7:hover {
+			background-color: #b056bb;
+			color: white;
+		}
+
+		.button8 {
+			border-radius: 15px;
+			height: 45px;
+			width: 90px;
+			margin: 5px;
+			background-color: white;
+			color: black;
+			border: 2px solid #00b896;
+			text-align: center;
+		}
+
+		.button8:hover {
+			background-color: #00b896;
+			color: white;
+		}
+
+		.button9 {
+			border-radius: 15px;
+			height: 45px;
+			width: 90px;
+			margin: 5px;
+			background-color: white;
+			color: black;
+			border: 2px solid #C6D167;
+			text-align: center;
+		}
+
+		.button9:hover {
+			background-color: #C6D167;
+			color: white;
+		}
+
+		.responseimage {
+			height: 50px;
+			widows: 45px;
+			margin-bottom: 10px;
+			margin-right: 10px;
+			float: left;
+		}
+
+		.open-button {
+			cursor: pointer;
+			opacity: 0.8;
+			position: fixed;
+			bottom: 30px;
+			right: 50px;
+			border-radius: 50%;
+			height: 80px;
+			width: 80px;
+		}
+
+		.open-button-img {
+			height: 100%;
+			width: 100%;
+			object-fit: cover;
+		}
+
+		.usertime {
+			font-size: 12px;
+			padding-left: 30px;
+			text-align: left;
+		}
+
+		.responsetime {
+			text-align: right;
+			font-size: 12px;
+			padding-right: 30px;
+		}
+
+		header {
+			background-color: #ECF3F3;
+			margin-top: -25px;
+		}
+	</style>
+</head>
+
+<body>
+	<button class="open-button" onclick="openForm()"><img class='open-button-img' src="ank2.png"></button>
+	<div class="chat-popup" id="myForm">
+
+		<header>
+			<h1>&nbsp; Hi, I am Shakti. &nbsp;<img src="upcl.png" style="width: 100px;height: 70px;border-radius: 50%">
+			</h1>
+			<h2>&nbsp;I am UPCL’s digital assistant</h2>
+		</header>
+
+		<div class="form-container">
+
+			<div class='chatBox'>
+
+			</div>
+
+
+
+
+			<input id="input" type="text" style="width: 380px;border-radius: 15px;height: 30px;"
+				placeholder="Write your message here...">
+			<button type="button" class="btn cancel" onclick="closeForm()">Close</button>
+
+
+		</div>
+	</div>
+
+</body>
+
+</html>
